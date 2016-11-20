@@ -1,8 +1,8 @@
-Connection successfully established on 137.194.35.64 in 0.202s
-Connection successfully established on 137.194.35.63 in 0.156s
-Connection successfully established on 137.194.35.62 in 0.196s
-Connection successfully established on 137.194.35.61 in 0.184s
-Connection successfully established on 137.194.35.60 in 0.182s
-Connection successfully established on 137.194.35.56 in 0.196s
-Connection successfully established on 137.194.35.55 in 0.182s
-Connection successfully established on 137.194.35.54 in 0.194s
+Connection successfully established on 137.194.35.64 in 0.218s
+Connection successfully established on 137.194.35.63 in 0.171s
+Connection successfully established on 137.194.35.62 in 0.204s
+Connection successfully established on 137.194.35.61 in 0.192s
+Connection successfully established on 137.194.35.60 in 0.183s
+Connection successfully established on 137.194.35.56 in 0.175s
+Connection successfully established on 137.194.35.55 in 0.173s
+Connection successfully established on 137.194.35.54 in 0.191s

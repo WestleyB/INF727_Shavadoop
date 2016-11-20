@@ -160,17 +160,23 @@ public class functions_tool {
 		// Execution du fichier JAR distant
 		ProcessBuilder process = new ProcessBuilder("ssh", login + "@" + ip,
 				" cd " + path_cible + ";java -jar " + file_cible + " " + param);
-		// System.out.println("cmd :"+process.command());
 		Process process_1 = process.start();
 		InputStream input_stream_1 = process_1.getInputStream();
-		BufferedReader buffered_reader = null;
-		buffered_reader = new BufferedReader(new InputStreamReader(input_stream_1));
+		InputStream error_stream_1 = process_1.getErrorStream();
+		BufferedReader buffered_reader = new BufferedReader(new InputStreamReader(input_stream_1));
+		BufferedReader buffered_reader_error = new BufferedReader(new InputStreamReader(error_stream_1));
 		String line = null;
+		
 		while ((line = buffered_reader.readLine()) != null) {
-			System.out.println(line);
-			// master_compute.key_return_tmp.add(line);
+			//System.out.println(line);
 			logs_return_tmp.add(line);
 		}
+		
+		while ((line = buffered_reader_error.readLine()) != null) {
+			//System.out.println(line);
+			logs_return_tmp.add(line);
+		}
+		
 		long time_end = java.lang.System.currentTimeMillis();
 		System.out.println("Slave computations finished on " + ip + " Temps d'execution : ["
 				+ (time_end - time_begining) / 1000.0 + "s]");

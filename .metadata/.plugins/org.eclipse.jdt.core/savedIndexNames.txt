@@ -1,0 +1,3 @@
+INDEX VERSION 1.129+/Users/Wes/CloudStation/big_data/MSBGD/7-INF727_Systemes_repartis/INF727_Shavadoop/.metadata/.plugins/org.eclipse.jdt.core
+1953354896.index
+1223822514.index

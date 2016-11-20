@@ -21,7 +21,7 @@ public class master_compute {
 																// JAR
 		String file_cible = "slave_calcul.jar";
 		String ips_source = "liste_ip.txt";
-		String input_file = "forestier_mayotte.txt";	// "Input.txt";		// 
+		String input_file = "forestier_mayotte.txt";	//  "Input.txt";  //
 		String final_file = "output_final.txt";
 		// =======================================================================================
 
@@ -42,14 +42,19 @@ public class master_compute {
 		ArrayList<String> key_return_tmp = new ArrayList<String>();
 
 		// Vérification des IPs valides
-		String file_logs = ssh_manager.check_save_goods_ip(login, ips_source);
+//		String file_logs = ssh_manager.check_save_goods_ip(login, ips_source);
+//				
+//		// Création de la liste d'IPs valides
+//		ips_list_ok = functions_tool.read_file(file_logs);
+//		for(String ip_unformated : ips_list_ok){
+//			list_ip_with_time.putAll(ssh_manager.extract_ip_from_logs(ip_unformated));
+//		}
 		
-		// Création de la liste d'IPs valides
-		ips_list_ok = functions_tool.read_file(file_logs);
-		for(String ip_unformated : ips_list_ok){
-			list_ip_with_time.putAll(ssh_manager.extract_ip_from_logs(ip_unformated));
-		}
+		System.out.println("\n*******************************  Scan of available IP's workers  *********************************");
+		// scan a range of available IP
+		list_ip_with_time.putAll(ssh_manager.ip_workers_scanner(login, "137.194.34.", 45, 66));
 		list_ip_with_time = functions_tool.sort_hashmap_by_values(list_ip_with_time);
+		System.out.println(list_ip_with_time);
 	
 		
 		// Simulation de test
@@ -64,8 +69,7 @@ public class master_compute {
 		System.out.println("\ncles_Sx_machines : ");
 		for(String sx : cles_Sx_machines.keySet()){
 			System.out.println("		" + sx + " : " + cles_Sx_machines.get(sx));
-		}
-		System.out.println("\n*************************************************************************************************");		
+		}		
 		
 		double time_end_1 = java.lang.System.currentTimeMillis();
 		temps_execution_functions.put("Splitting Function", (time_end_1 - time_start_1) / 1000.0);
@@ -82,7 +86,7 @@ public class master_compute {
 			exec_parallele thread_ip = new exec_parallele(cles_Sx_machines.get(el_splitted), login, path_cible, file_cible, params);
 			thread_ip.start();
 			threads.add(thread_ip);
-			System.out.println("Fin d'execution :" + params);
+			//System.out.println("Fin d'execution :" + params);
 		}
 
 		// Attente de la fin d'execution
@@ -93,7 +97,7 @@ public class master_compute {
 			}
 		}
 
-		System.out.println("key_return_tmp : " + key_return_tmp);
+		System.out.println("key_return_tmp : 	" + key_return_tmp);
 		
 		double time_end_2 = java.lang.System.currentTimeMillis();
 		temps_execution_functions.put("Splits Mapping Function", (time_end_2 - time_start_2) / 1000.0);
@@ -112,7 +116,7 @@ public class master_compute {
 				cles_UMx_tmp.put(keys_tmp.split(" ")[0], cles_UMx_sub);
 			}
 		}
-		System.out.println("cles_UMx_tmp : " + cles_UMx_tmp);
+		System.out.println("cles_UMx_tmp : 		" + cles_UMx_tmp);
 
 		
 		
@@ -130,12 +134,11 @@ public class master_compute {
 				}
 			}
 		}
-		System.out.println("cles_UMx : " + cles_UMx);
-		System.out.println("Tout est fini");
+		System.out.println("cles_UMx : 		" + cles_UMx);
 
 		double time_start_3 = java.lang.System.currentTimeMillis();
 		
-		
+		System.out.println("\n****************************  Shuffling Maps / Reducing Sorted Maps Function Launched  *********************************\n");		
 		// Préparation des paramètres à envoyer aux slaves
 		params = " " + "modeUMXSMX";
 		int index_smx = 0;
@@ -156,7 +159,6 @@ public class master_compute {
 		int index_select_ip = 0;
 		for (String el_param : params_config) {
 			String ip_word_selected = "";
-		
 			ip_word_selected = list_ip_with_time.keySet().toArray(new String[index_select_ip])[index_select_ip];
 			if(index_select_ip < list_ip_with_time.keySet().size() - 1){
 				index_select_ip += 1;
@@ -173,11 +175,12 @@ public class master_compute {
 		for (exec_parallele thread_ip_launched : threads) {
 			thread_ip_launched.join();
 			for (String log_return : thread_ip_launched.getLogs_return()) {
-				smx_key_return_tmp.add(log_return);
+				smx_key_return_tmp.add(log_return);				
 				cles_RMx_machines.put(log_return.split(" ")[0], Integer.parseInt(functions_tool.word_cleaner_regex(log_return.split(" ")[1]).trim()));
 			}
 		}
-		System.out.println("Fin d'execution : " + params);
+		System.out.println("smx_key_return_tmp : " + smx_key_return_tmp);
+		//System.out.println("Fin d'execution : " + params);
 		System.out.println("RMx returns : " + cles_RMx_machines);
 		
 		double time_end_3 = java.lang.System.currentTimeMillis();

@@ -110,16 +110,15 @@ public class ssh_manager {
 	}
 
 	// En construction
-	public static HashMap<String, Double> ip_workers_scanner(String login) throws InterruptedException {
+	public static HashMap<String, Double> ip_workers_scanner(String login, String pool_init, int ip_init, int ip_end) throws InterruptedException {
 		HashMap<String, Double> pool_ip_adress = new HashMap<>();
 		String file_path = System.getProperty("user.dir") + "/" + "logs_connexions_v2.txt";
-		String pool_init = "137.194.34.";
-		int index_ip = 2;
-	
-		while (index_ip < 100) {
+		new File(file_path).delete();
+		int index_ip = ip_init;
+		while (index_ip < ip_end) {
 			String ip_tested = pool_init + index_ip;
 			String ip_tmp = connection_distant(login, ip_tested);
-			System.out.println(ip_tested + " : " + ip_tmp);
+			//System.out.println(ip_tested + " : " + ip_tmp);
 			if (ip_tmp != null) {
 				pool_ip_adress.putAll(extract_ip_from_logs(ip_tmp));
 				functions_tool.write_file(file_path, ip_tmp);

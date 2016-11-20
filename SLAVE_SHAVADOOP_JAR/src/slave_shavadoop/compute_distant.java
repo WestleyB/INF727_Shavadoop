@@ -57,44 +57,59 @@ public class compute_distant {
 	
 	// UMx > RMx
 	public static HashMap<String, Integer> shuffling_maps(String params){
+		ArrayList<String> list_words_to_reduce = new ArrayList<String>();
+		HashMap<String, Integer> words_reduced = new HashMap<String, Integer>();
 		ArrayList<String> list_words_all = new ArrayList<String>();
+		ArrayList<String> list_words_all_tmp = new ArrayList<String>();
+		
+		// get parameters
 		String word = params.split(" ")[0];
 		String smx_cible = params.split(" ")[1].toString();
+		String rmx_file = "RM" + smx_cible.substring(smx_cible.length() - 1, smx_cible.length());
+		String str_words_reduced_tmp = "";
 		
-		new File(smx_cible).delete();
+		// get informations of UMx files
 		for(String el_param : params.split(" ")){
 			if(!el_param.equals(word) && !el_param.equals(smx_cible)){
-				list_words_all.addAll(functions_tool.read_file(el_param));
+				list_words_all_tmp.addAll(functions_tool.read_file(el_param));
 			}
 		}
-		System.out.println(">>>> list_words_all : " + list_words_all);
+		
+		for(String str_el : list_words_all_tmp){
+			if(str_el.split(" ")[0].equals(word)){
+				list_words_all.add(str_el);
+			}
+		}
+		
+		new File(smx_cible).delete();
+		
+		// select right word of each file
 		for(String word_selected : list_words_all){
 			if(word_selected.split(" ")[0].equals(word)){
 				functions_tool.write_file(smx_cible, word_selected);
+				list_words_to_reduce.add(word_selected.split(" ")[0]);
 			}
 		}
 		//System.out.println(smx_cible);
 		//return smx_cible;
-	
-		ArrayList<String> list_words_to_reduce = new ArrayList<String>();
-		HashMap<String, Integer> words_reduced = new HashMap<String, Integer>();
-		
-		String rmx_file = "RM" + params.substring(params.length() - 1, params.length());
-		String str_words_reduced_tmp = "";
 		
 		new File(rmx_file).delete();
-		//list_words_to_reduce.addAll(functions_tool.read_file(params));
-		list_words_to_reduce.addAll(list_words_all);
+
+		//list_words_to_reduce = list_words_all;
+		
 		words_reduced = functions_tool.words_count(list_words_to_reduce);
+		
 		for(String key_word_reduced :  words_reduced.keySet()){
 			str_words_reduced_tmp = key_word_reduced + " " + words_reduced.get(key_word_reduced);
 		}
 		functions_tool.write_file(rmx_file, str_words_reduced_tmp);
+		
+		// Key Transfert to the master  
 		System.out.println(str_words_reduced_tmp);
 		return words_reduced;
 	}
 
-	
+	// function merged with shuffling_maps
 	public static HashMap<String, Integer> reducing_sorted_maps(String params){
 		ArrayList<String> list_words_to_reduce = new ArrayList<String>();
 		HashMap<String, Integer> words_reduced = new HashMap<String, Integer>();
@@ -116,39 +131,33 @@ public class compute_distant {
 
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-		//HashMap<String, ArrayList<String>> cle_umx_tmp = new HashMap<String, ArrayList<String>>();
 		HashMap<String, Integer> cle_rmx_tmp = new HashMap<String, Integer>();
 		String cle_smx_tmp;
 		
 		if (args[0] != null) {
 			switch (args[0]) {
 			case "simul":
-				// System.out.println(">> Execution simul");
 				simul_compute();
 				break;
 			case "modeSXUMX":
-				// System.out.println(">> Execution split_mapping");
 				splits_mapping(args[1]);
 				break;
 			case "modeUMXSMX":
-				//System.out.println(">> Execution shuffling_maps");
-				int nb_arguments = args.length; 	//Integer.parseInt(args[1]);
+				int nb_arguments = args.length;
 				int i = 1;
 				String str_tmp = "";
 				while(i < nb_arguments){
 					str_tmp = str_tmp + args[i] + " ";
-					i += 1;
+					i++;
 				}
 				cle_rmx_tmp = shuffling_maps(str_tmp);		// cle_smx_tmp
 				//cle_rmx_tmp.putAll(reducing_sorted_maps(cle_smx_tmp));
 				break;
 			default:
-				// System.out.println(">> Execution simul");
 				simul_compute();
 				break;
 			}
 		} else {
-			// System.out.println(">> Execution simul");
 			simul_compute();
 		}
 	}
