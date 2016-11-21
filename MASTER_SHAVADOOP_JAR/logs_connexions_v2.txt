@@ -1,3 +1,3 @@
-Connection successfully established on 137.194.34.91 in 0.338s
-Connection successfully established on 137.194.34.92 in 0.162s
-Connection successfully established on 137.194.34.93 in 0.223s
+Connection successfully established on 137.194.34.91 in 0.176s
+Connection successfully established on 137.194.34.92 in 0.152s
+Connection successfully established on 137.194.34.93 in 0.162s

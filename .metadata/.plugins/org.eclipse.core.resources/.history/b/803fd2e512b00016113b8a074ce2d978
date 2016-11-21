@@ -41,7 +41,6 @@ public class master_compute {
 		ArrayList<String> smx_key_return_tmp = new ArrayList<String>();
 		ArrayList<String> params_config = new ArrayList<String>();
 		ArrayList<String> key_return_tmp = new ArrayList<String>();
-		ArrayList<String> garbage_words = new ArrayList<String>();
 
 		// Vérification des IPs valides
 		// String file_logs = ssh_manager.check_save_goods_ip(login,
@@ -120,6 +119,10 @@ public class master_compute {
 				cles_UMx_tmp.put(keys_tmp.split(" ")[0], cles_UMx_sub);
 			}
 		}
+		System.out.println(
+				"\n*******************************  List of keys  *********************************");
+
+		System.out.println("cles_UMx_tmp : 		" + cles_UMx_tmp);
 
 		// Création de la clés-UMx
 		for (String key_umx : cles_UMx_tmp.keySet()) {
@@ -135,11 +138,6 @@ public class master_compute {
 				}
 			}
 		}
-		
-		System.out.println(
-				"\n*******************************  List of keys  *********************************");
-		
-		System.out.println("cles_UMx_tmp : 		" + cles_UMx_tmp);
 		System.out.println("cles_UMx : 		" + cles_UMx);
 
 		double time_start_3 = java.lang.System.currentTimeMillis();
@@ -181,30 +179,20 @@ public class master_compute {
 			thread_ip_launched.join();
 			for (String log_return : thread_ip_launched.getLogs_return()) {
 				smx_key_return_tmp.add(log_return);
+				System.out.println(">>> 		>>>>" + thread_ip_launched + "WTF : " + log_return);
 				if (!log_return.isEmpty()) {
 					// Problem with > zsh:1: unmatched '
 					// Problem > ssh_exchange_identification: Connection closed
 					// by remote host
-					//garbage_words
-					System.out.println("word : " + thread_ip_launched.get_params_return().split(" ")[2]);
-					if(!thread_ip_launched.get_params_return().split(" ")[2].equals(log_return.split(" ")[0])){
-						System.out.println("bad word : " + log_return);
-						garbage_words.add(thread_ip_launched.get_params_return().split(" ")[2]);
-					}
-					else{
-						cles_RMx_machines.put(log_return.split(" ")[0],
-								Integer.parseInt(log_return.split(" ")[1]));
-					}
-					
+					System.out.println(thread_ip_launched.get_params_return());
+					cles_RMx_machines.put(log_return.split(" ")[0],
+							Integer.parseInt(log_return.split(" ")[1]));
 					
 					
 							//Integer.parseInt(functions_tool.word_cleaner_regex(log_return.split(" ")[1]).trim()));
 				}
 			}
 		}
-		
-		System.out.println(">>>>>	garbage_words : " + garbage_words);
-		
 		System.out.println("smx_key_return_tmp : " + smx_key_return_tmp);
 		// System.out.println("Fin d'execution : " + params);
 		System.out.println("RMx returns : " + cles_RMx_machines);

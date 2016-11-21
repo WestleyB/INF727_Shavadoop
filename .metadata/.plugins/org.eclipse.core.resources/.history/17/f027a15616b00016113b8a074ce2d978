@@ -181,6 +181,7 @@ public class master_compute {
 			thread_ip_launched.join();
 			for (String log_return : thread_ip_launched.getLogs_return()) {
 				smx_key_return_tmp.add(log_return);
+				System.out.println(">>> 		>>>>" + thread_ip_launched + "WTF : " + log_return);
 				if (!log_return.isEmpty()) {
 					// Problem with > zsh:1: unmatched '
 					// Problem > ssh_exchange_identification: Connection closed

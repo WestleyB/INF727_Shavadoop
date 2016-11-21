@@ -237,7 +237,7 @@ public class functions_tool {
 	}
 
 	
-	// Function to sort HashMap by values
+	// Sort HashMap by values
 	public static LinkedHashMap<String, Double> sort_hashmap_by_values(HashMap<String, Double> passedMap) {
 		List<String> mapKeys = new ArrayList<>(passedMap.keySet());
 		List<Double> mapValues = new ArrayList<>(passedMap.values());
@@ -266,7 +266,7 @@ public class functions_tool {
 		return sortedMap;
 	}
 
-//	Function for cleaning file : delete special characters
+	
 	public static String word_cleaner_regex(String dirty_words){
 		String regex_pattern = "[aA-zZ0-9'éèàùç]+";
 		String words_cleaned = "";

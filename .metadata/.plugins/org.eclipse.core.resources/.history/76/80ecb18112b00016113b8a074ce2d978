@@ -266,7 +266,7 @@ public class functions_tool {
 		return sortedMap;
 	}
 
-//	Function for cleaning file : delete special characters
+	
 	public static String word_cleaner_regex(String dirty_words){
 		String regex_pattern = "[aA-zZ0-9'éèàùç]+";
 		String words_cleaned = "";

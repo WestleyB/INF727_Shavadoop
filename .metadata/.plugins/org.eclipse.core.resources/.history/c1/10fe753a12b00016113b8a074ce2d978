@@ -83,8 +83,8 @@ public class functions_tool {
 		list_to_split = functions_tool.read_file(input_file);
 
 //		Define the size of the new aggregation dictionary with the number of workers available
-		int number_split = list_to_split.size() / ips_list_ok.size();		// Integer number of splits of the input file
-		int remainder_split = list_to_split.size() % ips_list_ok.size() ;	// Remainder of lines we have to treat
+		int number_split = list_to_split.size() / ips_list_ok.size();
+		int remainder_split = list_to_split.size() % ips_list_ok.size() ;
 		
 		for(int m=0; m<=ips_list_ok.size(); m++){
 			String new_line_tmp ="";
@@ -237,7 +237,7 @@ public class functions_tool {
 	}
 
 	
-	// Function to sort HashMap by values
+	// Sort HashMap by values
 	public static LinkedHashMap<String, Double> sort_hashmap_by_values(HashMap<String, Double> passedMap) {
 		List<String> mapKeys = new ArrayList<>(passedMap.keySet());
 		List<Double> mapValues = new ArrayList<>(passedMap.values());
@@ -266,7 +266,7 @@ public class functions_tool {
 		return sortedMap;
 	}
 
-//	Function for cleaning file : delete special characters
+	
 	public static String word_cleaner_regex(String dirty_words){
 		String regex_pattern = "[aA-zZ0-9'éèàùç]+";
 		String words_cleaned = "";
