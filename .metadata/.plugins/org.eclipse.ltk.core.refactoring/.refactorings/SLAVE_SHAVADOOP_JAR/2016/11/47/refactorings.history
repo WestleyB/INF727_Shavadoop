@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;slave_shavadoop.compute_distant.shuffling_maps(...)&apos; to &apos;shuffling_and_reducing_sorted_maps&apos;&#x0A;- Original project: &apos;SLAVE_SHAVADOOP_JAR&apos;&#x0A;- Original element: &apos;slave_shavadoop.compute_distant.shuffling_maps(...)&apos;&#x0A;- Renamed element: &apos;slave_shavadoop.compute_distant.shuffling_and_reducing_sorted_maps(...)&apos;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;shuffling_maps&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;slave_shavadoop{compute_distant.java[compute_distant~shuffling_maps~QString;" name="shuffling_and_reducing_sorted_maps" references="true" stamp="1479723059581" version="1.0"/>
+</session>

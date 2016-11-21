@@ -7,29 +7,29 @@ import java.util.HashMap;
 
 import master_shavadoop.functions_tool;
 
+//	Class available for all workers, which contains the different functions they need to work.
 public class compute_distant {
 
+//	Simulation function for check if the parallelization work correctly 
 	public static void simul_compute() throws InterruptedException {
-		// System.out.println("Début du calcul");
 		Thread.sleep(10000);
 	}
 
-	// split Sx file to UMx
+//	Function for split the Sx files receive from the master to UMx files contains the list of words like [word1 1]
 	public static void splits_mapping(String sx_file) {
 		HashMap<String, ArrayList<String>> slave_cle_umx = new HashMap<String, ArrayList<String>>();
 		ArrayList<String> list_words = new ArrayList<String>();
 		ArrayList<String> list_unik_words = new ArrayList<String>();
 		
-		// Extraire le nom de fichier
+//		 Create the UMx name file from the index of the Sx source 
 		String sx_name = Paths.get(sx_file).getFileName().toString();
 		String umx_file = "UM" + sx_name.substring(sx_name.length() - 1, sx_name.length());
 		new File(umx_file).delete();
 
-		// Lecture du fichier Sx de la machine
+//		 Read the Sx file, the function return a ArrayList with each line of the file
 		list_words = functions_tool.read_file(sx_file);
 
-		// Ecriture des fichiers UMx
-		// identification des clés du fichier
+//		 Write the UMx file and save the list of unik words contains in the UMx
 		for (String list_words_line : list_words) {
 			for (String word_no_unik : list_words_line.split(" ")) {
 				functions_tool.write_file(umx_file, word_no_unik + " 1");
@@ -39,10 +39,10 @@ public class compute_distant {
 			}
 		}
 		
-		// Création de : clé-UMx
+//		Create a keys dictionary with the list of words and the UMx name
 		slave_cle_umx.put(umx_file, list_unik_words);
 
-		// Formatage et transfert de la clé via affichage
+//		Format the keys dictionary to send it to the master. We use the standard output for send it to the master
 		String str_tmp = "";
 		String str_format = "";
 		for (String return_tmp : slave_cle_umx.keySet()) {
@@ -55,14 +55,17 @@ public class compute_distant {
 		System.out.println(str_format);
 	}
 	
-	// UMx > RMx
-	public static HashMap<String, Integer> shuffling_maps(String params){
+//	 Function for reduce the UMx files to RMx files. Contains 2 main steps, Suffling_maps for sort the similar words from UMx 
+//	to each SMx files. And the step reducing sorted maps, for count the words and save them to RMx files.  
+	public static HashMap<String, Integer> shuffling_and_reducing_sorted_maps(String params){
 		ArrayList<String> list_words_to_reduce = new ArrayList<String>();
 		HashMap<String, Integer> words_reduced = new HashMap<String, Integer>();
 		ArrayList<String> list_words_all = new ArrayList<String>();
 		ArrayList<String> list_words_all_tmp = new ArrayList<String>();
 		
-		// get parameters
+//		Get the parameters send by the main. The main function send one string with blank as separator. 
+//		In first position we find the word treat, in second position the Sx file target name, 
+//		since the name of all the UMx files where the word is present.     
 		String word = params.split(" ")[0];
 		String smx_cible = params.split(" ")[1].toString();
 		String rmx_file = "RM" + smx_cible.substring(smx_cible.length() - 1, smx_cible.length());
@@ -150,7 +153,7 @@ public class compute_distant {
 					str_tmp = str_tmp + args[i] + " ";
 					i++;
 				}
-				cle_rmx_tmp = shuffling_maps(str_tmp);		// cle_smx_tmp
+				cle_rmx_tmp = shuffling_and_reducing_sorted_maps(str_tmp);		// cle_smx_tmp
 				//cle_rmx_tmp.putAll(reducing_sorted_maps(cle_smx_tmp));
 				break;
 			default:

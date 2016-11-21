@@ -27,6 +27,10 @@ public class exec_parallele extends Thread implements Runnable {
 	public String get_ip_return() {
 		return this.ip;
 	}
+
+	public String get_params_return() {
+		return this.params;
+	}
 	
 	@Override
 	public void run() {

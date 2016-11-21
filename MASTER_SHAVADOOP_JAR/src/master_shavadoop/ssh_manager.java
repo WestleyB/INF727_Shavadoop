@@ -12,7 +12,7 @@ public class ssh_manager {
 
 	// Connection to distant worker
 	public static String connection_distant(String login, String ip) throws InterruptedException {
-		ProcessBuilder proc = new ProcessBuilder("ssh", login + "@" + ip, " BatchMode yes; echo $((2+3))");	// "-o connectTimeout=1 " + 
+		ProcessBuilder proc = new ProcessBuilder("ssh", "-o ConnectTimeout=1 ", login + "@" + ip, " BatchMode yes; echo $((2+3))");	// "-o ConnectTimeout=1 " + 
 		Process proc_1;
 		try {
 			double time_start = java.lang.System.currentTimeMillis();
@@ -48,6 +48,7 @@ public class ssh_manager {
 		return file_path;
 	}
 
+	
 	// Selection d'une IP aléatoire
 	public static String select_random_ip(ArrayList<String> pool_ip) {
 		Random rn = new Random();
@@ -55,6 +56,7 @@ public class ssh_manager {
 		return pool_ip.get(ip_index);
 	}
 
+	
 	public static boolean checkIP(String ip) {
 	
 		String[] c = ip.split("\\.");
@@ -88,6 +90,7 @@ public class ssh_manager {
 		return true;
 	}
 
+	
 	// Extract available worker's IP with response time
 	public static HashMap<String, Double> extract_ip_from_logs(String ip_from_logs) {
 		HashMap<String, Double> good_ip_with_time = new HashMap<String, Double>();
@@ -109,6 +112,7 @@ public class ssh_manager {
 		return good_ip_with_time;
 	}
 
+	
 	// En construction
 	public static HashMap<String, Double> ip_workers_scanner(String login, String pool_init, int ip_init, int ip_end) throws InterruptedException {
 		HashMap<String, Double> pool_ip_adress = new HashMap<>();
