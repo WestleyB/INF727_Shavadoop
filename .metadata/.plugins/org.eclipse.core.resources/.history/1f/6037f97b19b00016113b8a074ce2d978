@@ -185,8 +185,7 @@ public class master_compute {
 					// Problem with > zsh:1: unmatched '
 					// Problem > ssh_exchange_identification: Connection closed
 					// by remote host
-					System.out.println(log_return.split(" ").length);
-					if(!thread_ip_launched.get_params_return().split(" ")[2].equals(log_return.split(" ")[0]) && log_return.split(" ").length!=2){
+					if(!thread_ip_launched.get_params_return().split(" ")[2].equals(log_return.split(" ")[0])){
 						System.out.println("bad word : " + thread_ip_launched.get_params_return().split(" ")[2]);
 						System.out.println("return msg : " + log_return);
 						garbage_words.add(thread_ip_launched.get_params_return().split(" ")[2]);
@@ -225,13 +224,11 @@ public class master_compute {
 		for (int el : cles_RMx_machines.values()) {
 			tot += el;
 		}
-		System.out.println("*******************************************************************");
 		System.out.println("WORD COUNT REPORT : " + tot);
 		System.out.println("Splitting Function : " + temps_execution_functions.get("Splitting Function"));
 		System.out.println("Splits Mapping Function : " + temps_execution_functions.get("Splits Mapping Function"));
 		System.out.println(
 				"Reducing Sorted Maps Function : " + temps_execution_functions.get("Reducing Sorted Maps Function"));
-		System.out.println("*******************************************************************");
 	}
 
 }
