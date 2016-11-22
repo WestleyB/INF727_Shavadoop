@@ -86,24 +86,26 @@ public class functions_tool {
 		int number_split = list_to_split.size() / ips_list_ok.size();		// Integer number of splits of the input file
 		int remainder_split = list_to_split.size() % ips_list_ok.size() ;	// Remainder of lines we have to treat
 		
-		for(int m=0; m<=ips_list_ok.size(); m++){
+//		Create the new aggregate dictionary which contain one entry for several initial lines
+		for(int index_split_line=0; index_split_line<=ips_list_ok.size(); index_split_line++){
 			String new_line_tmp ="";
-			int index_min = m * number_split;
+			int index_min = index_split_line * number_split;
 			int index_max = index_min + number_split;
 			
-			if(m == ips_list_ok.size() && remainder_split != 0){
-				index_max = index_min + remainder_split;
-			}
+				if(index_split_line == ips_list_ok.size() && remainder_split != 0){
+					index_max = index_min + remainder_split;
+				}
 
-			for(String line_from_list : list_to_split.subList(index_min, index_max)){
-				new_line_tmp += line_from_list + " ";
-			}
+				for(String line_from_list : list_to_split.subList(index_min, index_max)){
+					new_line_tmp += line_from_list + " ";
+				}
 			list_to_split_agg.add(new_line_tmp);
 		}	
 		
 		// Create all Sx file by the master for send them to different workers
 		for (String line_to_sx : list_to_split_agg) {
 			if (!master_split_Sx.containsKey(line_to_sx) && !line_to_sx.isEmpty()) {
+
 //				Construct the name of the new Sx file
 				String file_key = "S" + list_to_split_agg.indexOf(line_to_sx);
 				new File(file_key).delete();
@@ -113,12 +115,17 @@ public class functions_tool {
 				
 //				Write new Sx files with parts of the input file. 
 				functions_tool.write_file(file_key, line_to_sx);
-				
+
+//				Select the worker's IP with the best response time 
 				String ip_word_selected = ips_list_ok.keySet().toArray(new String[index_select_ip])[index_select_ip];
 				
+//				Send the Sx file to the worker selected
 				functions_tool.copy_file_to(ip_word_selected, login, file_key, path_cible, file_key);
 				
+//				Save the name of the Sx file and the worker selected to a dictionary
 				master_split_Sx.put(file_key, ip_word_selected);
+				
+//				index for choosing the next worker from list of workers sort by increase response time
 				if (index_select_ip < ips_list_ok.keySet().size() - 1){
 					index_select_ip += 1;
 				} else {

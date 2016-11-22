@@ -71,12 +71,14 @@ public class compute_distant {
 		String rmx_file = "RM" + smx_cible.substring(smx_cible.length() - 1, smx_cible.length());
 		String str_words_reduced_tmp = "";
 		
-		// get informations of UMx files
+		
+//		Read data 
 		for(String el_param : params.split(" ")){
 			if(!el_param.equals(word) && !el_param.equals(smx_cible)){
 				list_words_all_tmp.addAll(functions_tool.read_file(el_param));
 			}
 		}
+		
 		
 		for(String str_el : list_words_all_tmp){
 			if(str_el.split(" ")[0].equals(word)){
@@ -85,6 +87,8 @@ public class compute_distant {
 		}
 		
 		new File(smx_cible).delete();
+		new File("SMx").mkdirs();
+		new File(smx_cible);
 		
 		// select right word of each file
 		for(String word_selected : list_words_all){
@@ -97,7 +101,7 @@ public class compute_distant {
 		//return smx_cible;
 		
 		new File(rmx_file).delete();
-
+		new File(rmx_file);
 		//list_words_to_reduce = list_words_all;
 		
 		words_reduced = functions_tool.words_count(list_words_to_reduce);
@@ -107,31 +111,13 @@ public class compute_distant {
 		}
 		functions_tool.write_file(rmx_file, str_words_reduced_tmp);
 		
-		// Key Transfert to the master  
+		// Key Transfert to the master
 		System.out.println(str_words_reduced_tmp);
 		return words_reduced;
 	}
 
-	// function merged with shuffling_maps
-	public static HashMap<String, Integer> reducing_sorted_maps(String params){
-		ArrayList<String> list_words_to_reduce = new ArrayList<String>();
-		HashMap<String, Integer> words_reduced = new HashMap<String, Integer>();
-		
-		String rmx_file = "RM" + params.substring(params.length() - 1, params.length());
-		String str_words_reduced_tmp = "";
-		
-		new File(rmx_file).delete();
-		list_words_to_reduce.addAll(functions_tool.read_file(params));
-		words_reduced = functions_tool.words_count(list_words_to_reduce);
-		for(String key_word_reduced :  words_reduced.keySet()){
-			str_words_reduced_tmp = key_word_reduced + " " + words_reduced.get(key_word_reduced);
-		}
-		functions_tool.write_file(rmx_file, str_words_reduced_tmp);
-		System.out.println(str_words_reduced_tmp);
-		return words_reduced;
-	}
+
 	
-
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		HashMap<String, Integer> cle_rmx_tmp = new HashMap<String, Integer>();
